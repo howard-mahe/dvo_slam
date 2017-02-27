@@ -9,6 +9,7 @@ These packages provide an implementation of the rigid body motion estimation of 
  *  **dvo_slam**: Pose graph SLAM system based on *dvo_core* and integration with ROS.
     
  *  **dvo_benchmark**: Integration of *dvo_slam* with TUM RGB-D benchmark, see [TUM RGB-D Dataset](http://vision.in.tum.de/data/datasets/rgbd-dataset).
+
 ## Dependencies
 ### sophus
 ```
