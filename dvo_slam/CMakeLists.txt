@@ -2,18 +2,19 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(dvo_slam)
 
+set(BUILD_SHARED_LIBS OFF)
+
 LIST(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules")
 
 find_package(catkin REQUIRED COMPONENTS roscpp dynamic_reconfigure dvo_core dvo_ros sensor_msgs image_transport message_filters cv_bridge visualization_msgs interactive_markers message_generation geometry_msgs)
 find_package(cmake_modules REQUIRED)
 find_package(Eigen3 REQUIRED)
+#find_package(SuiteSparse REQUIRED)
 find_package(G2O REQUIRED)
-#find_package(sophus REQUIRED)
-#find_package(Boost REQUIRED thread)
-find_package(OpenCV 2.4.8 REQUIRED)
-find_package(TBB REQUIRED)
+find_package(OpenGL)
 
-LIST(APPEND CMAKE_CXX_FLAGS "-std=c++11")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC" ) 
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC" )
 
 if(G2O_FOUND)
   message(STATUS "Found G2O")
@@ -37,7 +38,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES dvo_slam
-  DEPENDS OpenCV
+  DEPENDS G2O
   CATKIN_DEPENDS message_runtime
 )
 
@@ -46,6 +47,7 @@ include_directories(
   ${dvo_slam_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
+  #${CSPARSE_INCLUDE_DIR}
   ${G2O_INCLUDE_DIR}
 )
 
@@ -74,11 +76,20 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-  ${G2O_CORE_LIBRARY}
-  ${G2O_SOLVER_DENSE}
-  ${G2O_SOLVER_EIGEN}
-  ${G2O_TYPES_SLAM3D}
   ${catkin_LIBRARIES}
+
+g2o_solver_dense
+g2o_solver_eigen
+#g2o_solver_csparse
+#g2o_csparse_extension
+#cxsparse
+
+g2o_types_slam3d
+g2o_opengl_helper
+g2o_stuff
+g2o_core
+
+${OPENGL_LIBRARIES}
 )
 
 #add_executable(camera_keyframe_tracker

@@ -8,3 +8,5 @@ bin/
 lib/
 msg_gen/
 docs/
+CMakeLists.txt
+dvo_benchmark/output/*

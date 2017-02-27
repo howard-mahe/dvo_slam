@@ -2,14 +2,16 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(dvo_core)
 
+set(BUILD_SHARED_LIBS OFF)
+
 find_package(catkin REQUIRED)
 find_package(cmake_modules REQUIRED)
-find_package(PCL REQUIRED COMPONENTS common filters)
 find_package(Eigen3 REQUIRED)
-find_package(sophus REQUIRED)
+find_package(Sophus REQUIRED)
 find_package(Boost REQUIRED COMPONENTS thread)
-find_package(OpenCV 2.4.8 REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(TBB REQUIRED)
+find_package(PCL REQUIRED COMPONENTS common filters)
 
 catkin_package(
   INCLUDE_DIRS include
@@ -26,6 +28,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 add_library(dvo_core 
@@ -49,9 +52,10 @@ add_library(dvo_core
 )
 
 target_link_libraries(dvo_core 
+	${PCL_LIBRARIES}
+	${OpenCV_LIBRARIES}
     tbb
     boost_thread 
-    ${PCL_LIBRARIES}
 )
 
 add_library(dvo_visualization
