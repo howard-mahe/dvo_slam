@@ -8,7 +8,7 @@ These packages provide an implementation of the rigid body motion estimation of 
     
  *  **dvo_slam**: Pose graph SLAM system based on *dvo_core* and integration with ROS.
     
- *  **dvo_benchmark**: Integration of *dvo_slam* with TUM RGB-D benchmark, see http://vision.in.tum.de/data/datasets/rgbd-dataset.
+ *  **dvo_benchmark**: Integration of *dvo_slam* with TUM RGB-D benchmark, see [TUM RGB-D Dataset](http://vision.in.tum.de/data/datasets/rgbd-dataset).
 
 ## Dependencies
 ### sophus
@@ -84,7 +84,7 @@ where dvo_slam is the root of the Catkin workspace and has 4 packages: dvo_core,
 
 ### Build
 
- *  ROS Indigo
+ *  **ROS Indigo**
 
 	Go back to Catkin workspace's root folder and execute
 	```
@@ -108,16 +108,18 @@ where dvo_slam is the root of the Catkin workspace and has 4 packages: dvo_core,
 ### Estimating the camera trajectory from a TUM RGB-D sequence
 
 Go to *dvo_benchmark* source folder:
+
 	```
 	mkdir -p output
 	roslaunch launch/benchmark.launch dataset:=<RGBD dataset folder>
 	```
 
-Be sure that you have an *assoc.txt* file in your <RGBD dataset folder>. Otherwise, you can download the [associate.py](https://vision.in.tum.de/data/datasets/rgbd-dataset/tools) script on TUM RGB-D Dataset tools page.
+Be sure that you have an *assoc.txt* file in your `<RGBD dataset folder>`. Otherwise, you can download the [associate.py](https://vision.in.tum.de/data/datasets/rgbd-dataset/tools) script on TUM RGB-D Dataset tools page.
 
 ### Estimating the camera trajectory from an RGB-D image stream
 
 Considering you are already playing a rosbag or acquiring a RGB-D livestream. Run the **camera_keyframe_tracker** node:
+
 	```
 	rosrun dvo_slam camera_keyframe_tracker
 	```
@@ -126,24 +128,26 @@ Considering you are already playing a rosbag or acquiring a RGB-D livestream. Ru
  *	*/camera/rgb/image_rect* (either grey or color)
  * 	*/camera/depth_registered/image_rect_raw*
 so you may need usage of [<remap>](http://wiki.ros.org/roslaunch/XML/remap) tag in a launch file, i.e.
-	```
-	<!-- DVO SLAM node -->
-  	<node pkg="dvo_slam" type="camera_keyframe_tracker" name="dvo_slam" output="screen">
-    	<!-- Input remapping -->
-    	<remap from="/camera/depth_registered/image_rect_raw" to="/camera/depth_registered/image_rect"/>
-    	<remap from="/camera/rgb/image_rect" to="/camera/rgb/image_rect_color"/>
-	</node>
-	```
+
+```
+<!-- DVO SLAM node -->
+<node pkg="dvo_slam" type="camera_keyframe_tracker" name="dvo_slam" output="screen">
+	<!-- Input remapping -->
+	<remap from="/camera/depth_registered/image_rect_raw" to="/camera/depth_registered/image_rect"/>
+	<remap from="/camera/rgb/image_rect" to="/camera/rgb/image_rect_color"/>
+</node>
+```
 
 
-Dynamic reconfigure GUI will allow you to set true *run_dense_tracking* and *use_dense_tracking_estimate true* parameters of /dvo_slam/tracking.
+Dynamic reconfigure GUI will allow you to set true **run_dense_tracking** and **use_dense_tracking_estimate** parameters of */dvo_slam/tracking*.
+
 	```
 	rosrun rqt_reconfigure rqt_reconfigure
 	```
 You could also set these parameters in a launch file with [dynamic_reconfigure/dynparam](http://wiki.ros.org/dynamic_reconfigure#dynamic_reconfigure.2BAC8-indigo.dynparam_command-line_tool) nodelet.
 
 ### Visualization
- *	Start RVIZ
+ *  Start RVIZ
  *  Set the *Target Frame* to `/world`
  *  Add an *Interactive Marker* display and set its *Update Topic* to `/dvo_vis/update` (`/update` with *camera_keyframe_tracker* node)
  *  Add a *PointCloud2* display and set its *Topic* to `/dvo_vis/cloud` (`/cloud` with *camera_keyframe_tracker* node)
@@ -151,22 +155,8 @@ You could also set these parameters in a launch file with [dynamic_reconfigure/d
 The red camera shows the current camera position. The blue camera displays the initial camera position.
 
 ## Credits
-This work is clone from jade-devel branch of *tum-vision/dvo_slam* repository, with refactoring of *songuke/dvo_slam* contributions to support ROS Indigo and Ubuntu Trusty 14.04 LTS.
+This work is clone from jade-devel branch of **tum-vision/dvo_slam** repository, with refactoring of **songuke/dvo_slam** contributions to support ROS Indigo and Ubuntu Trusty 14.04 LTS.
  * [tum-vision/dvo_slam](https://github.com/tum-vision/dvo_slam/)
  * [songuke/dvo_slam](https://github.com/songuke/dvo_slam/)
 
-Note: the graph solver type is g2o::LinearSolverEigen (as in *tum-vision/dvo_slam*) instead of g2o::LinearSolverCSparse (as in *songuke/dvo_slam*)
-
-## Publications
-
-The following publications describe the approach:
-
- *   **Dense Visual SLAM for RGB-D Cameras** (C. Kerl, J. Sturm, D. Cremers), In Proc. of the Int. Conf. on Intelligent Robot Systems (IROS), 2013.
- *   **Robust Odometry Estimation for RGB-D Cameras** (C. Kerl, J. Sturm, D. Cremers), In Proc. of the IEEE Int. Conf. on Robotics and Automation (ICRA), 2013
- *   **Real-Time Visual Odometry from Dense RGB-D Images** (F. Steinbruecker, J. Sturm, D. Cremers), In Workshop on Live Dense Reconstruction with Moving Cameras at the Intl. Conf. on Computer Vision (ICCV), 2011.
-
-## DVO SLAM License
-
-The packages *dvo_core*, *dvo_ros*, *dvo_slam*, and *dvo_benchmark* are licensed under the GNU General Public License Version 3 (GPLv3), see http://www.gnu.org/licenses/gpl.html.
-
-The package *sophus* is licensed under the MIT License, see http://opensource.org/licenses/MIT.
+Note: the graph solver type is *g2o::LinearSolverEigen* (as in **tum-vision/dvo_slam**) instead of *g2o::LinearSolverCSparse* (as in **songuke/dvo_slam**)
