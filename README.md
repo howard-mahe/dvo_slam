@@ -126,7 +126,7 @@ rosrun dvo_slam camera_keyframe_tracker
  *  */camera/rgb/image_rect* (either grey or color)
  *  */camera/depth_registered/image_rect_raw*
 
-so you may need usage of [<remap>](http://wiki.ros.org/roslaunch/XML/remap) tag in a launch file, i.e.
+so you may need usage of [`<remap>`](http://wiki.ros.org/roslaunch/XML/remap) tag in a launch file, i.e.
 ```
 <!-- DVO SLAM node -->
 <node pkg="dvo_slam" type="camera_keyframe_tracker" name="dvo_slam" output="screen">
