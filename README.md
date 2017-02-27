@@ -123,17 +123,20 @@ rosrun dvo_slam camera_keyframe_tracker
 ```
 
 **camera_keyframe_tracker** node expects following *sensors_msgs::Image* topics:
- *	*/camera/rgb/image_rect* (either grey or color)
- * 	*/camera/depth_registered/image_rect_raw*
+ *  */camera/rgb/image_rect* (either grey or color)
+ *  */camera/depth_registered/image_rect_raw*
+
 so you may need usage of [<remap>](http://wiki.ros.org/roslaunch/XML/remap) tag in a launch file, i.e.
-	```
-	<!-- DVO SLAM node -->
-  	<node pkg="dvo_slam" type="camera_keyframe_tracker" name="dvo_slam" output="screen">
-    	<!-- Input remapping -->
-    	<remap from="/camera/depth_registered/image_rect_raw" to="/camera/depth_registered/image_rect"/>
-    	<remap from="/camera/rgb/image_rect" to="/camera/rgb/image_rect_color"/>
-	</node>
-	```
+```
+<!-- DVO SLAM node -->
+<node pkg="dvo_slam" type="camera_keyframe_tracker" name="dvo_slam" output="screen">
+    <!-- Input remapping -->
+    <remap from="/camera/depth_registered/image_rect_raw" 
+             to="/camera/depth_registered/image_rect"/>
+    <remap from="/camera/rgb/image_rect"
+             to="/camera/rgb/image_rect_color"/>
+</node>
+```
 
 
 Dynamic reconfigure GUI will allow you to set true **run_dense_tracking** and **use_dense_tracking_estimate** parameters of */dvo_slam/tracking*.
@@ -151,7 +154,7 @@ You could also set these parameters in a launch file with [dynamic_reconfigure/d
 The red camera shows the current camera position. The blue camera displays the initial camera position.
 
 ## Credits
-This work is clone from jade-devel branch of **tum-vision/dvo_slam** repository, with refactoring of **songuke/dvo_slam** contributions to support ROS Indigo and Ubuntu Trusty 14.04 LTS.
+This work is clone from *jade-devel* branch of **tum-vision/dvo_slam** repository, with refactoring of **songuke/dvo_slam** contributions to support ROS Indigo and Ubuntu Trusty 14.04 LTS.
  * [tum-vision/dvo_slam](https://github.com/tum-vision/dvo_slam/)
  * [songuke/dvo_slam](https://github.com/songuke/dvo_slam/)
 
